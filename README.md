@@ -1,287 +1,93 @@
-# INDIA-GENERAL-ELECTION-RESULTS---2024
+🗳️ India General Election 2024 – Data Analysis & Dashboard
 
+This project is all about exploring and understanding the results of the India General Elections 2024 using SQL and Power BI. It’s a mix of data analysis and interactive visual storytelling to uncover key trends, party performance, and voting patterns across the country.
 
-NEW COLUMN 
-Party Alliance = 
-IF(
-    partywise_results[Party] = "Bharatiya Janata Party - BJP" ||
-    partywise_results[Party] = "Telugu Desam - TDP" ||
-    partywise_results[Party] = "Janata Dal  (United) - JD(U)" ||
-    partywise_results[Party] = "Shiv Sena - SHS" ||
-    partywise_results[Party] = "AJSU Party - AJSUP" ||
-   partywise_results[Party] = "Apna Dal (Soneylal) - ADAL" ||
-    partywise_results[Party] = "Asom Gana Parishad - AGP" ||
-    partywise_results[Party] = "Hindustani Awam Morcha (Secular) - HAMS" ||
-    partywise_results[Party] = "Janasena Party - JnP" ||
-    partywise_results[Party] = "Janata Dal  (Secular) - JD(S)" ||
-    partywise_results[Party] = "Lok Janshakti Party(Ram Vilas) - LJPRV" ||
-    partywise_results[Party] = "Nationalist Congress Party - NCP" ||
-    partywise_results[Party]= "Rashtriya Lok Dal - RLD" ||
-    partywise_results[Party] = "Sikkim Krantikari Morcha - SKM",
-    "NDA",
-    IF(
-        partywise_results[Party] = "Indian National Congress - INC" ||
-        partywise_results[Party] = "Aam Aadmi Party - AAAP" ||
-        partywise_results[Party] = "All India Trinamool Congress - AITC" ||
-        partywise_results[Party] = "Bharat Adivasi Party - BHRTADVSIP" ||
-        partywise_results[Party]= "Communist Party of India  (Marxist) - CPI(M)" ||
-        partywise_results[Party] = "Communist Party of India  (Marxist-Leninist)  (Liberation) - CPI(ML)(L)" ||
-        partywise_results[Party] = "Communist Party of India - CPI" ||
-        partywise_results[Party] = "Dravida Munnetra Kazhagam - DMK" ||
-        partywise_results[Party] = "Indian Union Muslim League - IUML" ||
-        partywise_results[Party] = "Jammu & Kashmir National Conference - JKN" ||
-        partywise_results[Party] = "Jharkhand Mukti Morcha - JMM" ||
-        partywise_results[Party] = "Kerala Congress - KEC" ||
-        partywise_results[Party] = "Marumalarchi Dravida Munnetra Kazhagam - MDMK" ||
-        partywise_results[Party] = "Nationalist Congress Party Sharadchandra Pawar - NCPSP" ||
-        partywise_results[Party] = "Rashtriya Janata Dal - RJD" ||
-        partywise_results[Party] = "Rashtriya Loktantrik Party - RLTP" ||
-        partywise_results[Party] = "Revolutionary Socialist Party - RSP" ||
-        partywise_results[Party] = "Samajwadi Party - SP" ||
-        partywise_results[Party] = "Shiv Sena (Uddhav Balasaheb Thackrey) - SHSUBT" ||
-        partywise_results[Party] = "Viduthalai Chiruthaigal Katchi - VCK",
-        "I.N.D.I.A.",
-        "OTHER"
-    )
-)
+📁 What This Project Includes
+Here’s everything that’s part of the repository:
 
+📄 Data & Queries
+INDIA GENERAL ELECTION RESULTS.sql – A collection of SQL queries to explore party performance, seat counts, vote breakdowns, etc.
 
-NEW MEASURE
-Total Seats = SUM(partywise_results[Won])
+.csv files with structured data:
 
+constituencywise_details.csv
 
-NEW MEASURE
-NDA Seats = CALCULATE([Total Seats], partywise_results[Party Alliance] = "NDA")
+constituencywise_results.csv
 
+partywise_results.csv
 
-NEW MEASURE
-% of NDA Seats = DIVIDE([NDA Seats], [Total Seats], 0)
+states.csv
 
+statewise_results.csv
 
-NEW MEASURE
-INDIA Seats = CALCULATE([Total Seats], partywise_results[Party Alliance] = “I.N.D.I.A.”)
+📊 Dashboard & Report
+INDIA GENERAL ELECTION RESULT.pbix – The Power BI dashboard file
 
+INDIA GENERAL ELECTION RESULT 2024 (Modified).pbix – A refined version with updated visuals
 
-NEW MEASURE
-% of INDIA Seats = DIVIDE([INDIA Seats], [Total Seats], 0)
+🖼️ Visual Assets
+Constituency Analysis.png – Deep dive into seat-level data
 
+Details Grid.png – Tabular view of results
 
-NEW MEASURE
-Other Seats = CALCULATE([Total Seats], partywise_results[Party Alliance] = "OTHER")
+Landing Page.png – The dashboard’s starting point
 
+Overview Analysis.png – High-level party and alliance overview
 
-NEW MEASURE
-% of Other Seats = DIVIDE([Other Seats], [Total Seats], 0)
+Political Landscape by Scale.png – Visualization of party performance across regions
 
+State Demographics Analysis.png – View of state-specific vote and seat breakdowns
 
-NEW MEASURE
-NDA Seats Count = CALCULATE(COUNT(constituencywise_results[Constituency Name]),
-           partywise_results[Party Alliance] = "NDA")
+🛠 Tools I Used
+SQL (MySQL Workbench) – For querying and filtering raw data
 
+Power BI Desktop – For creating the dashboard and interactive visuals
 
-NEW MEASURE
-INDIA Seats Count = CALCULATE(COUNT(constituencywise_results[Constituency Name]),
-           partywise_results[Party Alliance] = “I”.N.D.I.A.)
+CSV Files – As the primary data source for modeling
 
+🔍 What You Can Find Inside
+Through SQL:
+Total number of seats in each state and constituency
 
-NEW MEASURE
-OTHER Seats Count = CALCULATE(COUNT(constituencywise_results[Constituency Name]),
-           partywise_results[Party Alliance] = "OTHER")
+Seats won by alliances like NDA, I.N.D.I.A., and Others
 
+Margin of victory, EVM vs Postal vote split
 
-NEW MEASURE
-Winning Alliance = 
+Who won, who was the runner-up — broken down by state
 
-VAR NDASeats = CALCULATE(COUNT(constituencywise_results[Constituency Name]), partywise_results[Party Alliance] = "NDA")
+Deep-dive insights for states like Maharashtra and Jharkhand
 
-VAR INDIASeats = CALCULATE(COUNT(constituencywise_results[Constituency Name]), partywise_results[Party Alliance] = "I.N.D.I.A.")
+Top 10 highest EVM vote earners
 
-RETURN
-IF(NDASeats >= INDIASeats, "NDA", "I.N.D.I.A.")
+Through Power BI:
+Interactive map showing party dominance across states
 
+Filters to drill down by state, alliance, or candidate
 
-NEW COLUMN
-Party Name (Result) = LOOKUPVALUE(partywise_results[Party], partywise_results[Party ID], constituencywise_results[Party ID])
+Key performance indicators (KPIs) showing total votes, votes by mode (EVM/Postal), and more
 
+Comparison visuals between alliances and parties
 
-NEW COLUMN
-Party Alliance (Result) = LOOKUPVALUE(partywise_results[Party Alliance], partywise_results[Party ID], constituencywise_results[Party ID])
+🎯 Why This Project
+The goal behind this project was to take a massive and complex dataset (like Indian election data) and make it easier to explore, analyze, and understand. Whether you're interested in politics, working with data, or just curious about the 2024 results — this project lets you interact with the story behind the numbers.
 
+💡 How to Use It
+Download or clone the repo.
 
-NEW COLUMN
-Winning Alliance Legend = 
+Open the .sql file in your SQL tool to explore the raw data and insights.
 
-VAR NDASeats = CALCULATE(COUNT(constituencywise_results[Constituency Name]), partywise_results[Party Alliance] = "NDA")
+Launch the .pbix file in Power BI Desktop and interact with the visuals — filter by state, check party performance, and more!
 
-VAR INDIASeats = CALCULATE(COUNT(constituencywise_results[Constituency Name]), partywise_results[Party Alliance] = "I.N.D.I.A.")
+🔮 What’s Coming Next
+Live results using an election data API
 
-RETURN
-IF(NDASeats >= INDIASeats, "NDA", "I.N.D.I.A.")
+More visuals like turnout heatmaps and constituency-level trends
 
-NEW COLUMN
-Party Short Name = LOOKUPVALUE(partywise_results[Party Short], partywise_results[Party ID], constituencywise_results[Party ID])
+Integration of demographic and socio-economic data
 
+Comparison with previous election years
 
-NEW MEASURE
-State Secondary KPI = 
+👤 About Me
+I’m Ashish Kumar, currently pursuing an MBA in Business Analytics. I love working with data and turning it into something meaningful. This project was a great way for me to apply skills in SQL and Power BI and explore one of the world’s largest democratic events.
 
- CALCULATE(SELECTEDVALUE(states[State], "No State"),
-            FILTER(constituencywise_results,constituencywise_results[Constituency ID] = MAX
-            (constituencywise_details[Constituency Number])
-            )
-)
-
-
-NEW MEASURE
-Total Votes KPI = "Total Votes" & ": " & MAX(constituencywise_details[Total Votes])
-
-
-NEW MEASURE
-Vote Share KPI = "Vote Share:" & " " & MAX(constituencywise_details[% of Votes]) &  " %”
-
-
-NEW MEASURE
-Runner Up Candidate = 
-
-VAR MaxVotes = MAX(constituencywise_details[Total Votes])
-
-VAR SecondMaxVotes = 
-    MAXX(
-        FILTER(constituencywise_details,constituencywise_details[Total Votes] < MaxVotes),
-        constituencywise_details[Total Votes]
-    )
-RETURN
-    CALCULATE(
-        MAX(constituencywise_details[Candidate]),
-        constituencywise_details[Total Votes] = SecondMaxVotes
-    )
-
-
-NEW MEASURE
-Runner Up Party = 
-
-VAR MaxVotes = MAX(constituencywise_details[Total Votes])
-
-VAR SecondMaxVotes = 
-    MAXX(
-        FILTER(constituencywise_details,constituencywise_details[Total Votes] < MaxVotes),
-        constituencywise_details[Total Votes]
-    )
-RETURN
-    CALCULATE(
-        MAX(constituencywise_details[Party]),
-        constituencywise_details[Total Votes] = SecondMaxVotes
-    )
-
-
-NEW MEASURE
-Runner Up Votes = 
-"Total Votes: " &
-VAR MaxVotes = MAX(constituencywise_details[Total Votes])
-
-VAR SecondMaxVotes = 
-    MAXX(
-        FILTER(constituencywise_details,constituencywise_details[Total Votes] < MaxVotes),
-        constituencywise_details[Total Votes]
-    )
-RETURN
-    SecondMaxVotes
-
-
-NEW MEASURE
-Runner Up % of Votes = 
-"Vote Share: " &
-VAR MaxVotes = MAX(constituencywise_details[% of Votes])
-
-VAR SecondMaxVotes = 
-    MAXX(
-        FILTER(constituencywise_details,constituencywise_details[% of Votes] < MaxVotes),
-        constituencywise_details[% of Votes]
-    )
-RETURN
-    SecondMaxVotes & " %"
-
-
-NEW MEASURE
-Second Runner Up Candidate = 
-
-VAR MaxVotes = MAX(constituencywise_details[Total Votes])
-
-VAR SecondMaxVotes = 
-    MAXX(
-        FILTER(constituencywise_details,constituencywise_details[Total Votes] < MaxVotes),
-        constituencywise_details[Total Votes]
-    )
-
-VAR ThirdMaxVotes = 
-    MAXX(
-        FILTER(constituencywise_details,constituencywise_details[Total Votes] < SecondMaxVotes),
-        constituencywise_details[Total Votes]
-    )
-RETURN
-    CALCULATE(
-        MAX(constituencywise_details[Candidate]),
-        constituencywise_details[Total Votes] = ThirdMaxVotes
-    )
-
-
-NEW MEASURE
-Second Runner Up Party = 
-
-VAR MaxVotes = MAX(constituencywise_details[Total Votes])
-
-VAR SecondMaxVotes = 
-    MAXX(
-        FILTER(constituencywise_details,constituencywise_details[Total Votes] < MaxVotes),
-        constituencywise_details[Total Votes]
-    )
-
-VAR ThirdMaxVotes = 
-    MAXX(
-        FILTER(constituencywise_details,constituencywise_details[Total Votes] < SecondMaxVotes),
-        constituencywise_details[Total Votes]
-    )
-RETURN
-    CALCULATE(
-        MAX(constituencywise_details[Party]),
-        constituencywise_details[Total Votes] = ThirdMaxVotes
-
-
-NEW MEASURE
-Second Runner Up Total Votes = 
-"Total Votes: " &
-VAR MaxVotes = MAX(constituencywise_details[Total Votes])
-
-VAR SecondMaxVotes = 
-    MAXX(
-        FILTER(constituencywise_details,constituencywise_details[Total Votes] < MaxVotes),
-        constituencywise_details[Total Votes]
-    )
-
-VAR ThirdMaxVotes = 
-    MAXX(
-        FILTER(constituencywise_details,constituencywise_details[Total Votes] < SecondMaxVotes),
-        constituencywise_details[Total Votes]
-    )
-RETURN
-    ThirdMaxVotes
-
-
-NEW MEASURE
-Second Runner Up % of Votes = 
-"Vote Share: " &
-VAR MaxVotes = MAX(constituencywise_details[% of Votes])
-
-VAR SecondMaxVotes = 
-    MAXX(
-        FILTER(constituencywise_details,constituencywise_details[% of Votes] < MaxVotes),
-        constituencywise_details[% of Votes]
-    )
-
-VAR ThirdMaxVotes = 
-    MAXX(
-        FILTER(constituencywise_details,constituencywise_details[% of Votes] < SecondMaxVotes),
-        constituencywise_details[% of Votes]
-    )
-RETURN
-    ThirdMaxVotes & " %"
+📫 Connect with me on LinkedIn (www.linkedin.com/in/ashish2609/)
